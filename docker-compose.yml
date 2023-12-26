@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+
+  alcomsur-app:
+    container_name: alcomsur-app
+    image: alcomsur-app:1.0.0
+    build: .
+    ports:
+      - 8080:8080
+    environment:
+      - DATABASE_URL=jdbc:postgresql://alcomsur-db:5432/postgres_db_alcomsur
+      - DATABASE_USERNAME=postgres_user_alcomsur
+      - DATABASE_PASSWORD=AlcomSurPsColl8
+    depends_on:
+      - alcomsur-db
+  alcomsur-db:
+    container_name: alcomsur-db
+    image: postgres:12
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres_user_alcomsur
+      POSTGRES_PASSWORD: AlcomSurPsColl8
+      POSTGRES_DB: postgres_db_alcomsur
+    volumes:
+      - alcomsur-db-data:/var/lib/postgresql/data
+volumes:
+  alcomsur-db-data:
